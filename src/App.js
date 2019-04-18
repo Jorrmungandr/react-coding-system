@@ -83,9 +83,9 @@ class Navbar extends Component {
           <div></div>
           <div></div>
         </a>
-        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status}}>Update</a>
-        <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status}}>Run</a>
-        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status}}>Save</a>
+        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status }}>Update</a>
+        <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status }}>Run</a>
+        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status }}>Save</a>
       </nav>
     )
   }
@@ -96,32 +96,61 @@ class CodeField extends Component {
     super(props);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
     this.state = {
       ctrldown: false,
     }
   }
 
+  handleScroll(event) {
+    
+  }
+  
+  handleChange(event) {
+    let code = document.querySelector('#code').value;
+    let lines = code.split(/\r*\n/);
+    let lineCounter = '';
+
+    for (let i = 1; i < lines.length; i++) {
+      lineCounter += i + '\r\n'
+    }
+
+    document.querySelector('#line-counter').value = lineCounter
+  }
+
   handleKeyDown(event) {
     let keycode = event.keyCode;
     let code = document.querySelector('#code');
+    let runButton = document.querySelector('#Run');
+    let saveButton = document.querySelector('#Save');
+    let updateButton = document.querySelector('#Update');
 
-    if(keycode === 9) {
+    if (keycode === 9) {
       event.preventDefault();
       code.value += '  ';
     }
-    if(keycode === 17) {
+    if (keycode === 17) {
       this.setState({
         ctrldown: true,
       })
     }
-    if(keycode === 13 && this.state.ctrldown === true) {
-      document.querySelector('#Run').click();
+    if (keycode === 13 && this.state.ctrldown === true) {
+      runButton.click();
+    }
+    if (keycode === 83 && this.state.ctrldown === true) {
+      event.preventDefault();
+      saveButton.click();
+    }
+    if (keycode === 85 && this.state.ctrldown === true) {
+      event.preventDefault();
+      updateButton.click();
     }
   }
 
   handleKeyUp(event) {
     let keycode = event.keyCode
-    if(keycode === 17) {
+    if (keycode === 17) {
       this.setState({
         ctrldown: false,
       })
@@ -131,7 +160,8 @@ class CodeField extends Component {
   render() {
     return (
       <div id="code-container">
-        <textarea cols="40" rows="5" id="code" onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}></textarea>
+        <textarea cols="1" rows="1" id="line-counter" disabled="true"></textarea>
+        <textarea cols="40" rows="5" id="code" onChange = {this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}>></textarea>
       </div>
     )
   }
