@@ -55,6 +55,23 @@ body {
   margin: 2px
 }
 
+.navbar .secmenu {
+  padding: 10px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--code-bg-color);
+  float: right;
+  text-align: center;
+  background-color: var(--code-bg-color);
+  margin: 3px;
+  color: #010203;
+}
+
+.navbar .secmenu:hover {
+  opacity: 0.7;
+}
+
 .navbar .menu:hover {
   opacity: 0.7;
 }
@@ -62,6 +79,6 @@ body {
 .navbar .menu div {
   width: 30px;
   height: 4px;
-  background-color: black;
+  background-color: #010203;
   margin: 4px 0;
 }
