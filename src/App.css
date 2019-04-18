@@ -1,33 +1,61 @@
-.App {
+:root{
+  --main-bg-color: #777;
+  --main-text-color: #FFFFFF;
+  --console-bg-color: #222;
+  --code-bg-color: #444;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+#code {
+  width: 99.5%;
+  height: 470px;
+  background-color: var(--code-bg-color);
+  border-width: 0px;
+  color: var(--code-text-color);
+  decoration: none;
+  resize: none;
+}
+
+#console {
+  width: 99.5%;
+  height: 100px;
+  background-color: var(--console-bg-color);
+  border-width: 0px;
+  color: var(--console-text-color);
+  margin: 0px;
+  resize: none;
+}
+
+.navbar {
+  width: 100%;
+  overflow: auto;
+  background-color: transparent;
+}
+
+.navbar #project-name {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.navbar .menu {
+  padding: 7px;
+  border-radius: 10px;
+  float: right;
+  text-align: center;
+  background-color: var(--code-bg-color);
+  margin: 2px
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.navbar .menu:hover {
+  opacity: 0.7;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar .menu div {
+  width: 35px;
+  height: 4px;
+  background-color: black;
+  margin: 4px 0;
 }
