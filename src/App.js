@@ -10,16 +10,11 @@ class Navbar extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.state = {
       status: 'none',
       filename: '',
     };
   };
-
-  handleKeyPress(event) {
-    let keycode = event.keycode
-  }
 
   handleEdit(event) {
     this.setState({
@@ -99,12 +94,44 @@ class Navbar extends Component {
 class CodeField extends Component {
   constructor(props) {
     super(props);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.state = {
+      ctrldown: false,
+    }
+  }
+
+  handleKeyDown(event) {
+    let keycode = event.keyCode;
+    let code = document.querySelector('#code');
+
+    if(keycode === 9) {
+      event.preventDefault();
+      code.value += '  ';
+    }
+    if(keycode === 17) {
+      this.setState({
+        ctrldown: true,
+      })
+    }
+    if(keycode === 13 && this.state.ctrldown === true) {
+      document.querySelector('#Run').click();
+    }
+  }
+
+  handleKeyUp(event) {
+    let keycode = event.keyCode
+    if(keycode === 17) {
+      this.setState({
+        ctrldown: false,
+      })
+    }
   }
 
   render() {
     return (
       <div id="code-container">
-        <textarea cols="40" rows="5" id="code" onKeyDown={this.handleKeyPress}></textarea>
+        <textarea cols="40" rows="5" id="code" onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}></textarea>
       </div>
     )
   }
