@@ -13,19 +13,25 @@ body {
 #code {
   width: 99.5%;
   height: 470px;
-  background-color: var(--code-bg-color);
   border-width: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 5px;
+  background-color: var(--code-bg-color);
   color: var(--code-text-color);
   decoration: none;
   resize: none;
+  outline: none;
 }
 
 #console {
   width: 99.5%;
-  height: 100px;
-  background-color: var(--console-bg-color);
+  height: 109px;
   border-width: 0px;
+  border-radius: 10px;
   color: var(--console-text-color);
+  background-color: var(--console-bg-color);
   margin: 0px;
   resize: none;
 }
@@ -54,7 +60,7 @@ body {
 }
 
 .navbar .menu div {
-  width: 35px;
+  width: 30px;
   height: 4px;
   background-color: black;
   margin: 4px 0;

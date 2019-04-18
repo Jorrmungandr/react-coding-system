@@ -3,19 +3,22 @@ import logo from './logo.svg';
 import './App.css';
 
 class Navbar extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
-  render () {
-    return(
-      <nav class="navbar">  
+  render() {
+    return (
+      <nav class="navbar">
         <a id="project-name">[PROJECT_NAME]</a>
         <a class="menu">
           <div></div>
           <div></div>
           <div></div>
         </a>
+        <a class="menu">Update</a>
+        <a class="menu">Run</a>
+        <a class="menu">Save</a>
       </nav>
     )
   }
@@ -42,7 +45,7 @@ class Console extends Component {
 
   render() {
     return (
-        <textarea cols="40" rows = "5" id="console" disabled="true">Hello</textarea>
+      <textarea cols="40" rows="5" id="console" disabled="true"> Hello</textarea>
     )
   }
 }
