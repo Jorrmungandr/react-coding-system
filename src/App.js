@@ -9,6 +9,7 @@ class Navbar extends Component {
     this.handleRun = this.handleRun.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.state = {
       status: 'none',
       filename: '',
@@ -21,8 +22,13 @@ class Navbar extends Component {
     });
   }
 
+  handleUpdate(event) {
+    alert('Você acaba de fazer porra nenhuma, parabéns');
+  }
+
   handleSave(event) {
     let code = document.querySelector('#code').value;
+    let file = '';
 
     const download = (filename, text) => {
       const element = document.createElement('a');
@@ -36,8 +42,12 @@ class Navbar extends Component {
 
       document.body.removeChild(element);
     }
+    
+    if (this.state.filename === '') {
+      file = 'example.js';
+    } else file = this.state.filename + '.js'
 
-    download(this.state.filename + '.js', code);
+    download(file, code);
   }
 
   handleRun(event) {
@@ -73,7 +83,7 @@ class Navbar extends Component {
           <div></div>
           <div></div>
         </a>
-        <a class="secmenu" id="Update" style={{ display: this.state.status, backgroundColor: "#e50000" }}>Update</a>
+        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status, backgroundColor: "#e50000" }}>Update</a>
         <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status, backgroundColor: "#007F00" }}>Run</a>
         <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status, backgroundColor: "#3232FF" }}>Save</a>
       </nav>
