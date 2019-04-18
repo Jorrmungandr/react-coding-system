@@ -8,10 +8,18 @@ class Navbar extends Component {
     this.handleMouseClick = this.handleMouseClick.bind(this);
     this.handleRun = this.handleRun.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.state = {
-      status: "none"
+      status: 'none',
+      filename: '',
     };
   };
+
+  handleEdit(event) {
+    this.setState({
+      filename: document.querySelector('#project-name').value
+    });
+  }
 
   handleSave(event) {
     let code = document.querySelector('#code').value;
@@ -20,25 +28,28 @@ class Navbar extends Component {
       const element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       element.setAttribute('download', filename);
-    
+
       element.style.display = 'none';
       document.body.appendChild(element);
-    
+
       element.click();
-    
+
       document.body.removeChild(element);
     }
-    
-    // Start file download.
-    download("code.js",code);
+
+    download(this.state.filename + '.js', code);
   }
 
   handleRun(event) {
     let code = document.querySelector('#code').value;
-    let consoleElement = document.querySelector('#console').value;
+    let consoleElement = document.querySelector('#console');
     let func = new Function(code)
 
-    consoleElement = func();
+    consoleElement.value += '---------' + '\r\n'
+    consoleElement.value += 'Running...' + '\r\n';
+    consoleElement.value += func() + '\r\n';
+    consoleElement.value += 'Finished' + '\r\n';
+    consoleElement.value += '---------' + '\r\n'
   }
 
   handleMouseClick(event) {
@@ -56,7 +67,7 @@ class Navbar extends Component {
   render() {
     return (
       <nav class="navbar">
-        <a id="project-name">[PROJECT_NAME]</a>
+        <input type="text" id="project-name" onChange={this.handleEdit} placeholder="[PROJECT_NAME]" />
         <a class="menu" onClick={this.handleMouseClick}>
           <div></div>
           <div></div>
