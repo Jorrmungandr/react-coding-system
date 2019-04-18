@@ -104,6 +104,19 @@ body {
   margin: 2px
 }
 
+.navmenu{
+  display:flex;
+  width: 0px;
+  float:right;
+  position: fixed;
+  z-index: 1;
+  overflow-x: hidden;
+  transition: .5s;
+  top: 0;
+  right: 48px;
+  border-radius: 20px;
+}
+
 .navbar .secmenu {
   padding: 10px;
   border-radius: 10px;
@@ -115,6 +128,8 @@ body {
   background-color: var(--code-bg-color);
   margin: 3px;
   color: #010203;
+  flex: 1;
+  transition: 0.3s;
 }
 
 .navbar .secmenu:hover {

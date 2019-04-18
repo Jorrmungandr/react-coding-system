@@ -11,7 +11,6 @@ class Navbar extends Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.state = {
-      status: 'none',
       filename: '',
     };
   };
@@ -59,19 +58,18 @@ class Navbar extends Component {
       });
     }
     consoleElement.value = '';
-    eval(code);
+    try {
+      eval(code);
+    }
+    catch (err) {
+      consoleElement.value = '> ' + err.message;
+    }
   }
 
   handleMouseClick(event) {
-    if (this.state.status === "flex") {
-      this.setState({
-        status: "none",
-      });
-    } else {
-      this.setState({
-        status: "flex",
-      });
-    }
+    if(document.querySelector(".navmenu").style.width == '0px') {
+      document.querySelector(".navmenu").style.width = '300px';
+    } else document.querySelector(".navmenu").style.width = '0px'
   }
 
   render() {
@@ -83,9 +81,11 @@ class Navbar extends Component {
           <div></div>
           <div></div>
         </a>
-        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status }}>Update</a>
-        <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status }}>Run</a>
-        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status }}>Save</a>
+        <div class="navmenu">
+          <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status }}>Update</a>
+          <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status }}>Run</a>
+          <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status }}>Save</a>
+        </div>
       </nav>
     )
   }
@@ -110,14 +110,14 @@ class CodeField extends Component {
     linecounter.scrollTop = code.scrollTop
     console.log(code.scrollTop);
   }
-  
+
   handleChange(event) {
     let code = document.querySelector('#code').value;
     let lines = code.split(/\r*\n/);
     let lineCounter = '';
 
     lines.forEach((line, i) => {
-      lineCounter += i+1 + '\r\n'
+      lineCounter += i + 1 + '\r\n'
     })
 
     document.querySelector('#line-counter').value = lineCounter
@@ -165,7 +165,7 @@ class CodeField extends Component {
     return (
       <div id="code-container">
         <textarea cols="1" rows="1" id="line-counter" disabled="true"></textarea>
-        <textarea cols="40" rows="5" id="code" onChange = {this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}></textarea>
+        <textarea cols="40" rows="5" id="code" onChange={this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}></textarea>
       </div>
     )
   }
