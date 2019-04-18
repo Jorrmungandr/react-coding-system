@@ -22,7 +22,7 @@ body {
   outline: none;
   float: left;
   margin-bottom: 2px;
-  flex: 60;
+  flex: 50;
 }
 
 #code-container {
@@ -38,11 +38,13 @@ body {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: var(--code-bg-color);
-  color: var(--main-text-color);
+  color: #888;
   margin-bottom: 2px;
   flex: 1;
   border-right-width: 1px;
   border-right-color: #010203;
+  overflow:hidden;
+  text-align: right;
 }
 
 #console {

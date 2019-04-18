@@ -104,7 +104,11 @@ class CodeField extends Component {
   }
 
   handleScroll(event) {
-    
+    let code = document.querySelector('#code');
+    let linecounter = document.querySelector('#line-counter');
+
+    linecounter.scrollTop = code.scrollTop
+    console.log(code.scrollTop);
   }
   
   handleChange(event) {
@@ -112,9 +116,9 @@ class CodeField extends Component {
     let lines = code.split(/\r*\n/);
     let lineCounter = '';
 
-    for (let i = 1; i < lines.length; i++) {
-      lineCounter += i + '\r\n'
-    }
+    lines.forEach((line, i) => {
+      lineCounter += i+1 + '\r\n'
+    })
 
     document.querySelector('#line-counter').value = lineCounter
   }
@@ -161,7 +165,7 @@ class CodeField extends Component {
     return (
       <div id="code-container">
         <textarea cols="1" rows="1" id="line-counter" disabled="true"></textarea>
-        <textarea cols="40" rows="5" id="code" onChange = {this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}>></textarea>
+        <textarea cols="40" rows="5" id="code" onChange = {this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}></textarea>
       </div>
     )
   }
