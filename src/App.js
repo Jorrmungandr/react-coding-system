@@ -10,11 +10,16 @@ class Navbar extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.state = {
       status: 'none',
       filename: '',
     };
   };
+
+  handleKeyPress(event) {
+    let keycode = event.keycode
+  }
 
   handleEdit(event) {
     this.setState({
@@ -42,7 +47,7 @@ class Navbar extends Component {
 
       document.body.removeChild(element);
     }
-    
+
     if (this.state.filename === '') {
       file = 'example.js';
     } else file = this.state.filename + '.js'
@@ -53,13 +58,13 @@ class Navbar extends Component {
   handleRun(event) {
     let code = document.querySelector('#code').value;
     let consoleElement = document.querySelector('#console');
-    let func = new Function(code)
-
-    consoleElement.value += '---------' + '\r\n'
-    consoleElement.value += 'Running...' + '\r\n';
-    consoleElement.value += func() + '\r\n';
-    consoleElement.value += 'Finished' + '\r\n';
-    consoleElement.value += '---------' + '\r\n'
+    window.console.log = (...args) => {
+      args.forEach((arg) => {
+        consoleElement.value += '> ' + arg + '\r\n';
+      });
+    }
+    consoleElement.value = '';
+    eval(code);
   }
 
   handleMouseClick(event) {
@@ -83,9 +88,9 @@ class Navbar extends Component {
           <div></div>
           <div></div>
         </a>
-        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status, backgroundColor: "#e50000" }}>Update</a>
-        <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status, backgroundColor: "#007F00" }}>Run</a>
-        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status, backgroundColor: "#3232FF" }}>Save</a>
+        <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status}}>Update</a>
+        <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status}}>Run</a>
+        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status}}>Save</a>
       </nav>
     )
   }
@@ -99,7 +104,7 @@ class CodeField extends Component {
   render() {
     return (
       <div id="code-container">
-        <textarea cols="40" rows="5" id="code"></textarea>
+        <textarea cols="40" rows="5" id="code" onKeyDown={this.handleKeyPress}></textarea>
       </div>
     )
   }

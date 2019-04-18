@@ -34,6 +34,8 @@ body {
   background-color: var(--console-bg-color);
   margin: 0px;
   resize: none;
+  font-family: monospace;
+  font-weight: bold;
 }
 
 .navbar {
