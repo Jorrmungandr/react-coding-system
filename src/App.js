@@ -7,10 +7,31 @@ class Navbar extends Component {
     super(props);
     this.handleMouseClick = this.handleMouseClick.bind(this);
     this.handleRun = this.handleRun.bind(this);
+    this.handleSave = this.handleSave.bind(this);
     this.state = {
       status: "none"
     };
   };
+
+  handleSave(event) {
+    let code = document.querySelector('#code').value;
+
+    const download = (filename, text) => {
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+    
+      element.style.display = 'none';
+      document.body.appendChild(element);
+    
+      element.click();
+    
+      document.body.removeChild(element);
+    }
+    
+    // Start file download.
+    download("code.js",code);
+  }
 
   handleRun(event) {
     let code = document.querySelector('#code').value;
@@ -43,7 +64,7 @@ class Navbar extends Component {
         </a>
         <a class="secmenu" id="Update" style={{ display: this.state.status, backgroundColor: "#e50000" }}>Update</a>
         <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status, backgroundColor: "#007F00" }}>Run</a>
-        <a class="secmenu" id="Save" style={{ display: this.state.status, backgroundColor: "#3232FF" }}>Save</a>
+        <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status, backgroundColor: "#3232FF" }}>Save</a>
       </nav>
     )
   }
