@@ -22,7 +22,7 @@ class Navbar extends Component {
   }
 
   handleUpdate(event) {
-    alert('Você acaba de fazer porra nenhuma, parabéns');
+    
   }
 
   handleSave(event) {
@@ -108,7 +108,6 @@ class CodeField extends Component {
     let linecounter = document.querySelector('#line-counter');
 
     linecounter.scrollTop = code.scrollTop
-    console.log(code.scrollTop);
   }
 
   handleChange(event) {
