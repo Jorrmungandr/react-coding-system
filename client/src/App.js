@@ -91,27 +91,36 @@ class CodeField extends Component {
     super(props);
     this.state = {
       ctrldown: false,
-      scriptString: '',
+      lastkey: '',
     }
   }
 
   handleScroll(event) {
     let code = document.querySelector('#code');
     let lineNumbers = document.querySelector('#line-counter');
+    let quantityOfChars = code.length;
 
     lineNumbers.scrollTop = code.scrollTop
   }
 
   handleChange(event) {
-    let code = document.querySelector('#code').value;
-    let lines = code.split(/\r*\n/);
+    let code = document.querySelector('#code');
+    let lines = code.value.split(/\r*\n/);
     let lineCounter = '';
+    let quantityOfChars = parseInt(code.value.length)
 
     lines.forEach((line, i) => {
       lineCounter += i + 1 + '\r\n'
     })
 
-    document.querySelector('#line-counter').value = lineCounter
+    document.querySelector('#line-counter').value = lineCounter;
+
+
+    if (code.value.split('')[quantityOfChars - 1] === '(' && this.state.lastkey === 57) {
+      if (code.value.substr(code.selectionEnd)[0] !== ')') {
+        code.value += ')'
+      }
+    }
   }
 
   handleKeyDown(event) {
@@ -120,18 +129,24 @@ class CodeField extends Component {
     let runButton = document.querySelector('#run');
     let saveButton = document.querySelector('#save');
     let updateButton = document.querySelector('#update');
+    let charStr = String.fromCharCode(keycode);
 
-    if (event.keyCode === 9) { 
+
+    if (code.value.substr(code.selectionEnd)[0] === ')' && keycode === 57) {
       event.preventDefault();
-      let start = code.selectionStart;
-      let end = code.selectionEnd;
-      code.value = code.value.substr(0, start) + "  " + code.value.substr(end);
-      code.selectionStart = code.selectionEnd = start + 2;  
+      code.selectionStart++;
     }
     if (keycode === 17) {
       this.setState({
         ctrldown: true,
       })
+    }
+    if (keycode === 9) {
+      event.preventDefault();
+      let start = code.selectionStart;
+      let end = code.selectionEnd;
+      code.value = code.value.substr(0, start) + "  " + code.value.substr(end);
+      code.selectionStart = code.selectionEnd = start + 2;
     }
     if (keycode === 13 && this.state.ctrldown === true) {
       runButton.click();
@@ -144,6 +159,10 @@ class CodeField extends Component {
       event.preventDefault();
       updateButton.click();
     }
+    this.setState({
+      lastkey: keycode,
+    })
+    console.log(charStr + ': ' + keycode);
   }
 
   handleKeyUp(event) {
@@ -173,10 +192,6 @@ class CodeField extends Component {
 }
 
 class Console extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <textarea cols="40" rows="5"
