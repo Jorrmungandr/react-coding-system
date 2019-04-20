@@ -46,3 +46,15 @@ setTimeout(() => {
   }
 }, 1000);
 
+document.querySelector('#code').addEventListener( 'keydown', function ( e ) {
+  if ( e.which != 9 ) return;
+
+  var start 			= this.selectionStart;
+  var end				  = this.selectionEnd;
+
+  this.value 			= this.value.substr( 0, start ) + "\t" + this.value.substr( end );
+  this.selectionStart = this.selectionEnd = start + 1;
+
+  e.preventDefault();
+  return false;
+  });

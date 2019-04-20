@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import jQuery from 'jquery';
+import $ from 'jquery';
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.handleMouseClick = this.handleMouseClick.bind(this);
-    this.handleRun = this.handleRun.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
     this.state = {
       filename: '',
     };
@@ -21,9 +18,7 @@ class Navbar extends Component {
     });
   }
 
-  handleUpdate(event) {
-    
-  }
+  handleUpdate(event) { }
 
   handleSave(event) {
     let code = document.querySelector('#code').value;
@@ -66,25 +61,25 @@ class Navbar extends Component {
     }
   }
 
-  handleMouseClick(event) {
-    if (document.querySelector(".navmenu").style.width == '0px') {
-      document.querySelector(".navmenu").style.width = '250px';
-    } else document.querySelector(".navmenu").style.width = '0px'
-  }
-
   render() {
     return (
       <nav class="navbar">
-        <input type="text" id="project-name" onChange={this.handleEdit} placeholder="[PROJECT_NAME]" />
-        <a class="menu" onClick={this.handleMouseClick}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </a>
+        <input type="text" id="project-name"
+          onChange={this.handleEdit.bind(this)}
+          placeholder="[PROJECT_NAME]" />
+        <div id="blank-space"></div>
         <div class="navmenu">
-          <a class="secmenu" id="Update" onClick={this.handleUpdate} style={{ display: this.state.status, backgroundColor: '#661900'}}>Update</a>
-          <a class="secmenu" id="Run" onClick={this.handleRun} style={{ display: this.state.status, backgroundColor: '#00664c'}}>Run</a>
-          <a class="secmenu" id="Save" onClick={this.handleSave} style={{ display: this.state.status, backgroundColor: '#004c66'}}>Save</a>
+          <a class="secmenu" id="update"
+            onClick={this.handleUpdate.bind(this)}
+            style={{ display: this.state.status }}>Update</a>
+
+          <a class="secmenu" id="run"
+            onClick={this.handleRun.bind(this)}
+            style={{ display: this.state.status }}>Run</a>
+
+          <a class="secmenu" id="save"
+            onClick={this.handleSave.bind(this)}
+            style={{ display: this.state.status }}>Save</a>
         </div>
       </nav>
     )
@@ -94,20 +89,17 @@ class Navbar extends Component {
 class CodeField extends Component {
   constructor(props) {
     super(props);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleScroll = this.handleScroll.bind(this);
     this.state = {
       ctrldown: false,
+      scriptString: '',
     }
   }
 
   handleScroll(event) {
     let code = document.querySelector('#code');
-    let linecounter = document.querySelector('#line-counter');
+    let lineNumbers = document.querySelector('#line-counter');
 
-    linecounter.scrollTop = code.scrollTop
+    lineNumbers.scrollTop = code.scrollTop
   }
 
   handleChange(event) {
@@ -125,13 +117,16 @@ class CodeField extends Component {
   handleKeyDown(event) {
     let keycode = event.keyCode;
     let code = document.querySelector('#code');
-    let runButton = document.querySelector('#Run');
-    let saveButton = document.querySelector('#Save');
-    let updateButton = document.querySelector('#Update');
+    let runButton = document.querySelector('#run');
+    let saveButton = document.querySelector('#save');
+    let updateButton = document.querySelector('#update');
 
-    if (keycode === 9) {
+    if (event.keyCode === 9) { 
       event.preventDefault();
-      code.value += '  ';
+      let start = code.selectionStart;
+      let end = code.selectionEnd;
+      code.value = code.value.substr(0, start) + "  " + code.value.substr(end);
+      code.selectionStart = code.selectionEnd = start + 2;  
     }
     if (keycode === 17) {
       this.setState({
@@ -163,8 +158,15 @@ class CodeField extends Component {
   render() {
     return (
       <div id="code-container">
-        <textarea cols="1" rows="1" id="line-counter" disabled="true"></textarea>
-        <textarea cols="40" rows="5" id="code" onChange={this.handleChange} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onScroll={this.handleScroll}></textarea>
+        <textarea cols="1" rows="1"
+          id="line-counter"
+          disabled="true"></textarea>
+        <textarea cols="40" rows="5"
+          id="code"
+          onChange={this.handleChange.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
+          onKeyUp={this.handleKeyUp.bind(this)}
+          onScroll={this.handleScroll.bind(this)}></textarea>
       </div>
     )
   }
@@ -177,7 +179,9 @@ class Console extends Component {
 
   render() {
     return (
-      <textarea cols="40" rows="5" id="console" disabled="true"></textarea>
+      <textarea cols="40" rows="5"
+        id="console"
+        disabled="true"></textarea>
     )
   }
 }
