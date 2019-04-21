@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import jQuery from 'jquery';
 import $ from 'jquery';
+import { stringify } from 'querystring';
 
 class Navbar extends Component {
   constructor(props) {
@@ -91,7 +92,15 @@ class CodeField extends Component {
     super(props);
     this.state = {
       ctrldown: false,
+      shiftdown: false,
       lastkey: '',
+      doubleKeys: [
+        { first: '{', last: '}', firstCode: 221, lastCode: 220},
+        { first: '\"', last: '\"', firstCode: 192, lastCode: 192},
+        { first: '(', last: ')', firstCode: 57, lastCode: 48},
+        { first: '\'', last: '\'', firstCode: 192, lastCode: 192},
+        { first: '[', last: ']', firstCode: 221, lastCode: 220},
+      ],
     }
   }
 
@@ -104,7 +113,7 @@ class CodeField extends Component {
   }
 
   handleChange(event) {
-    let code = document.querySelector('#code');
+    let code = document.querySelector('#code');{}
     let lines = code.value.split(/\r*\n/);
     let lineCounter = '';
     let quantityOfChars = parseInt(code.value.length)
@@ -115,12 +124,14 @@ class CodeField extends Component {
 
     document.querySelector('#line-counter').value = lineCounter;
 
-
-    if (code.value.split('')[quantityOfChars - 1] === '(' && this.state.lastkey === 57) {
-      if (code.value.substr(code.selectionEnd)[0] !== ')') {
-        code.value += ')'
+    this.state.doubleKeys.forEach(key => {
+      if (code.value.split('')[quantityOfChars - 1] === key.first && this.state.lastkey === parseInt(key.firstCode)) {
+        if (code.value.substr(code.selectionEnd)[0] !== key.last) {
+          code.value += key.last
+          code.selectionStart = code.selectionEnd -= 1;
+        }
       }
-    }
+    });
   }
 
   handleKeyDown(event) {
@@ -129,16 +140,25 @@ class CodeField extends Component {
     let runButton = document.querySelector('#run');
     let saveButton = document.querySelector('#save');
     let updateButton = document.querySelector('#update');
-    let charStr = String.fromCharCode(keycode);
+    let charStr = stringify(keycode);
 
 
-    if (code.value.substr(code.selectionEnd)[0] === ')' && keycode === 57) {
-      event.preventDefault();
-      code.selectionStart++;
-    }
     if (keycode === 17) {
       this.setState({
         ctrldown: true,
+      })
+    }
+    if (keycode === 16) {
+      this.setState({
+        shiftdown: true,
+      })
+    }
+    if (this.state.shiftdown === true) {
+      this.state.doubleKeys.forEach(key => {
+        if (code.value.substr(code.selectionEnd)[0] === key.last && keycode === key.lastCode) {
+          event.preventDefault();
+          code.selectionStart++;
+        }
       })
     }
     if (keycode === 9) {
@@ -170,6 +190,11 @@ class CodeField extends Component {
     if (keycode === 17) {
       this.setState({
         ctrldown: false,
+      })
+    }
+    if (keycode === 16) {
+      this.setState({
+        shiftdown: false,
       })
     }
   }
