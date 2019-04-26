@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import jQuery from 'jquery';
 import $ from 'jquery';
 import { stringify } from 'querystring';
@@ -113,7 +113,7 @@ class CodeField extends Component {
   }
 
   handleChange(event) {
-    let code = document.querySelector('#code');{}
+    let code = document.querySelector('#code');
     let lines = code.value.split(/\r*\n/);
     let lineCounter = '';
     let quantityOfChars = parseInt(code.value.length)
@@ -182,7 +182,7 @@ class CodeField extends Component {
     this.setState({
       lastkey: keycode,
     })
-    console.log(charStr + ': ' + keycode);
+    // console.log(charStr + ': ' + keycode);
   }
 
   handleKeyUp(event) {

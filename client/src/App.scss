@@ -1,8 +1,25 @@
-:root {
-  --main-bg-color: #777;
-  --main-text-color: #FFFFFF;
-  --console-bg-color: #222;
-  --code-bg-color: #444;
+$main-bg-color: #777;
+$main-text-color: #FFFFFF;
+$console-bg-color: #222;
+$code-bg-color: #444;
+$dinamic-black: #010203;
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+}
+
+@mixin directional-border-radius ($top-left, $bottom-left, $top-right, $bottom-right){
+  $directions: top-left, bottom-left, top-right, bottom-right;
+  $params: $top-left, $bottom-left, $top-right, $bottom-right;
+  @each $direction in $directions {
+    border-#{$direction}-radius: $param;
+    -webkit-#{$direction}-radius: $param;
+    -moz-#{$direction}-radius: $param;
+    -ms-#{$direction}-radius: $param;  
+  }
 }
 
 ::-webkit-scrollbar {
@@ -10,19 +27,19 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--code-bg-color);
+  background: $code-bg-color;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--console-bg-color); 
-  border-radius: 10px;  
+  background: $console-bg-color; 
+  @include border-radius(10px)
 }
 
 body {
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
+  background-color: $main-bg-color;
+  color: $main-text-color;
 }
 
 #code {
@@ -30,8 +47,8 @@ body {
   border-width: 0px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: var(--code-bg-color);
-  color: var(--main-text-color);
+  background-color: $code-bg-color;
+  color: $main-text-color;
   decoration: none;
   resize: none;
   outline: none;
@@ -52,12 +69,12 @@ body {
   float:left;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  background-color: var(--code-bg-color);
+  background-color: $code-bg-color;
   color: #888;
   margin-bottom: 2px;
   flex: 1;
   border-right-width: 1px;
-  border-right-color: #010203;
+  border-right-color: $dinamic-black;
   overflow:hidden;
   text-align: right;
 }
@@ -67,8 +84,8 @@ body {
   height: 109px;
   border-width: 0px;
   border-radius: 10px;
-  color: var(--console-text-color);
-  background-color: var(--console-bg-color);
+  color: white;
+  background-color: $console-bg-color;
   margin: 0px;
   resize: none;
   font-family: monospace;
@@ -86,9 +103,9 @@ body {
 .navbar #project-name {
   padding: 7px;
   border-radius: 10px;
-  border-color: var(--console-bg-color);
+  border-color: $console-bg-color;
   color: #FFFFFF;
-  background-color: var(--code-bg-color);
+  background-color: $code-bg-color;
   margin: 6px;
   float: left;
   text-align: center;
@@ -112,15 +129,15 @@ body {
 
 .navbar .secmenu {
   padding: 10px;
-  border-radius: 10px;
+  @include border-radius(10px);
   border-style: solid;
   border-width: 1px;
-  border-color: var(--code-bg-color);
+  border-color: $code-bg-color;
   float: right;
   text-align: center;
-  background-color: var(--code-bg-color);
+  background-color: $code-bg-color;
   margin: 3px;
-  color: #010203;
+  color: $dinamic-black;
   flex: 1;
 }
 
@@ -135,6 +152,6 @@ body {
 .navbar .menu div {
   width: 30px;
   height: 4px;
-  background-color: #010203;
+  background-color: $dinamic-black;
   margin: 4px 0;
 }
